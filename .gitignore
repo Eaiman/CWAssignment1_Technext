@@ -42,8 +42,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .metadata/
-appcompat_v7/
 RemoteSystemsTempFiles/
 Servers/
 TAssignment1/bin/
 TAssignment1/gen/
+appcompat_v7/bin/
+appcompat_v7/gen/
