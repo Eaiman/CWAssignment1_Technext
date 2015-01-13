@@ -1,22 +1,21 @@
 package com.technext.tassignment1;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import com.technext.tassignment1.fragments.LoginFragment;
+import com.technext.tassignment1.fragments.ProfileFragment;
+import com.technext.tassignment1.fragments.RegistrationFragment;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -54,7 +53,7 @@ public class MainActivity extends ActionBarActivity implements
 		fragmentManager
 				.beginTransaction()
 				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1)).commit();
+						chooseFragment(position + 1)).commit();
 	}
 
 	public void onSectionAttached(int number) {
@@ -101,6 +100,30 @@ public class MainActivity extends ActionBarActivity implements
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private Fragment fragment = null;
+	
+	private Fragment chooseFragment(int position){
+		switch (position) {
+		case 1:
+			fragment = LoginFragment.newInstance(position);
+			break;
+
+		case 2:
+			fragment = RegistrationFragment.newInstance(position);
+			break;
+
+		case 3:
+			fragment = ProfileFragment.newInstance(position);
+			break;
+			
+		default:
+			fragment = PlaceholderFragment.newInstance(position);
+			break;
+		}
+		
+		return fragment;
 	}
 
 	/**
