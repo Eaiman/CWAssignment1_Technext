@@ -13,7 +13,20 @@ import android.widget.Toast;
 
 /***
  * 
- * this class needs SEND_SMS permission in manifest file
+ * This class is to send a message to a specific number directly or sending to someone through available apps in the system.<br>
+ * Permission required: </br>
+ * <strong>"android.permission.SEND_SMS"</strong></br>
+ * Procedure: </br>
+ * <ul>
+ * <li>Initialize an instance of this class in <strong>onCreate(...)</strong> method of your activity with <strong>YourActivityClass.this</strong> parameter.</li>
+ * <li>
+ * There are two methods to send message:
+ * <ul>
+ * <li><strong>public void sendMessage(String number, String message)</strong> : sends the message directly to the user without using the default messaging app.</li>
+ * <li><strong>public void sendMessage(String message)</strong> : offers user all available messaging apps in the system to send the message.</li>
+ * </ul>
+ * </li>
+ * </ul>
  *
  */
 
