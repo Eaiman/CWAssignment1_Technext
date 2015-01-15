@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.technext.tassignment1.fragments.LoginFragment;
+import com.technext.tassignment1.fragments.LoginFragment.LoginSuccessListener;
 import com.technext.tassignment1.fragments.ProfileFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment;
+import com.technext.tassignment1.model.User;
 
 public class MainActivity extends ActionBarActivity implements
-		NavigationDrawerFragment.NavigationDrawerCallbacks {
+		NavigationDrawerFragment.NavigationDrawerCallbacks,LoginSuccessListener {
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -168,6 +170,12 @@ public class MainActivity extends ActionBarActivity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}
+	}
+
+	@Override
+	public void onloginComplete(User user) {
+		Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
+		
 	}
 
 }

@@ -3,19 +3,40 @@ package com.technext.tassignment1.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.technext.tassignment1.MainActivity;
 import com.technext.tassignment1.R;
+import com.technext.tassignment1.dialog.SplashProgressDialog;
+import com.technext.tassignment1.fragments.RegistrationFragment.RegistrationCompleteListener;
+import com.technext.tassignment1.http.Client;
+import com.technext.tassignment1.model.User;
 
-public class LoginFragment extends Fragment{
+public class LoginFragment extends Fragment implements OnClickListener{
 	/**
 	 * The fragment argument representing the section number for this
 	 * fragment.
 	 */
 	private final static String ARG_SECTION_NUMBER = "section_number";
+	
+	
+	
+	private EditText editTextEmail;
+	private EditText editTextPassword;
+	private Button buttonLogin;
+	
+	private LoginSuccessListener loginSuccessListener;
+	private SplashProgressDialog progress;
 	
 	public LoginFragment(){
 		
@@ -43,6 +64,11 @@ public class LoginFragment extends Fragment{
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_login, container,
 				false);
+		
+		editTextEmail = (EditText) rootView.findViewById(R.id.editTextEmail);
+		editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
+		buttonLogin = (Button) rootView.findViewById(R.id.buttonLogin);
+		buttonLogin.setOnClickListener(this);
 		return rootView;
 	}
 	
@@ -52,11 +78,70 @@ public class LoginFragment extends Fragment{
 		super.onAttach(activity);
 		((MainActivity) activity).onSectionAttached(getArguments().getInt(
 				ARG_SECTION_NUMBER));
+		
+		if (!(activity instanceof LoginSuccessListener)) {
+			throw new IllegalStateException(
+					"Activity must implement fragment's callbacks login success listener.");
+		}
+
+		loginSuccessListener = (LoginSuccessListener) activity;
+
 	}
 	
 	@Override
 	public void onDetach() {
 		// TODO Auto-generated method stub
 		super.onDetach();
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(v.getId() == R.id.buttonLogin){
+			String email = editTextEmail.getText().toString();
+			String password = editTextPassword.getText().toString();
+			if(email == null || email.equalsIgnoreCase("")){
+				Toast.makeText(getActivity(), "Email Required", Toast.LENGTH_SHORT).show();
+			}else if(password == null || password.equalsIgnoreCase("")){
+				Toast.makeText(getActivity(), "Password Required", Toast.LENGTH_SHORT).show();
+			}else{
+				RequestParams params = new RequestParams();
+				params.put(Client.PARAM_EMAIL, email);
+				params.put(Client.PARAM_PASSWORD, password);
+				Client.raw_post(Client.URL_LOGIN, params, loginResponseHandler);
+			}
+		}
+		
+	}
+	
+	AsyncHttpResponseHandler loginResponseHandler = new AsyncHttpResponseHandler(){
+		
+		public void onStart() {
+			progress = new SplashProgressDialog(getActivity());
+            progress.show();
+		};
+		
+		public void onSuccess(int statusCode, String response) {
+			Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
+			Gson gson = new Gson();
+			User user = gson.fromJson(response, User.class);
+			Client.setUser(user);
+			Client.saveSession(getActivity(), user);
+			Log.e("User email", user.getEmail());
+			Toast.makeText(getActivity(), "User email--> "+ user.getEmail(), Toast.LENGTH_LONG).show();
+			loginSuccessListener.onloginComplete(user);
+		};
+		
+		public void onFailure(Throwable arg0, String arg1) {
+			Toast.makeText(getActivity(), "Login Failed", Toast.LENGTH_SHORT).show();
+		};
+		
+		public void onFinish() {
+			progress.dismiss();
+		};
+		
+	};
+	
+	public interface LoginSuccessListener{
+		public void onloginComplete(User user);
 	}
 }

@@ -23,9 +23,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
-    
     <string name="title_section1">Login</string>
     <string name="title_section2">Registration</string>
     <string name="title_section3">Profile</string>
+    
+    <!--sohel start  -->
+    <string name="textEmail">Email</string>
+    <string name="textPassword">Password</string>
+    <string name="textConfirmPassword">Confirm Password</string>
+    <string name="textRegButton">Register</string>
+    <string name="textLogin">Login</string>
+    <!--sohel end  -->
 
 </resources>
