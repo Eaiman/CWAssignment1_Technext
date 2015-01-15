@@ -9,5 +9,19 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    
+    
+    
+    
+    
+    
+    
+    <!--sohel start  -->
+    <string name="textEmail">Email</string>
+    <string name="textPassword">Password</string>
+    <string name="textConfirmPassword">Confirm Password</string>
+    <string name="textRegButton">Register</string>
+    <!--sohel end  -->
+    
 
 </resources>
