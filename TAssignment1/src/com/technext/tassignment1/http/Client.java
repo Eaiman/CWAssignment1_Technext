@@ -40,6 +40,7 @@ public class Client {
 	
 	
 	private static AsyncHttpClient client = new AsyncHttpClient();
+	private static Session session;
 	
 	//static User object to easily get user infomation
 	private static User user;
@@ -127,4 +128,38 @@ public class Client {
 		editor.remove("user_id");
 		editor.commit();
 	}
+	
+	public static Session getSession(Context context){
+		if(session == null){
+			session = new Session();
+		}
+		
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		String session_token = pref.getString("session_token", null);
+		long user_id = pref.getLong("user_id", 0);
+		session.setSessionToken(session_token);
+		session.setUserId(user_id);
+		return session;
+		
+	}
+	
+	
+	public static class Session{
+		private String sessionToken;
+		private long userId;
+		public String getSessionToken() {
+			return sessionToken;
+		}
+		public void setSessionToken(String sessionToken) {
+			this.sessionToken = sessionToken;
+		}
+		public long getUserId() {
+			return userId;
+		}
+		public void setUserId(long userId) {
+			this.userId = userId;
+		}
+		
+	}
+	
 }

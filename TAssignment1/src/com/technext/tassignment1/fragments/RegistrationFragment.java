@@ -19,6 +19,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.technext.tassignment1.MainActivity;
 import com.technext.tassignment1.R;
+import com.technext.tassignment1.dialog.SplashProgressDialog;
 import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
 
@@ -36,6 +37,7 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 	Button buttonRegister;
 	
 	private RegistrationCompleteListener registrationCompleteListener;
+	private SplashProgressDialog progress;
 	
 	public RegistrationFragment() {
 	}
@@ -125,7 +127,7 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 	
 	AsyncHttpResponseHandler registrationResponseHandler = new AsyncHttpResponseHandler(){
 		
-		private SplashProgressDialog progress;
+		
 		
 		public void onStart() {
 			progress = new SplashProgressDialog(getActivity());
@@ -133,6 +135,8 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 		};
 		
 		public void onSuccess(String response) {
+			
+			Toast.makeText(getActivity(), "Registration success", Toast.LENGTH_SHORT);
 			Gson gson = new Gson();
 			User user = gson.fromJson(response, User.class);
 			Client.setUser(user);
@@ -158,17 +162,4 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 		public void onRegistrationComplete(User user);
 	}
 	
-	public class SplashProgressDialog extends ProgressDialog{
-
-		public SplashProgressDialog(Context context) {
-			super(context);
-		}
-		
-		@Override
-		public void show(){
-			super.show();
-			setContentView(R.layout.loading);
-		}
-		
-	}
 }
