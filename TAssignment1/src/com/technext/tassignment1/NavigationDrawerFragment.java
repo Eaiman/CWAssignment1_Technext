@@ -1,10 +1,15 @@
 package com.technext.tassignment1;
 
+import java.util.ArrayList;
+
+import com.technext.tassignment1.adapter.DrawerAdapter;
+
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
@@ -105,13 +110,22 @@ public class NavigationDrawerFragment extends Fragment {
 						selectItem(position);
 					}
 				});
-		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar()
-				.getThemedContext(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, new String[] {
-						getString(R.string.title_section1),
-						getString(R.string.title_section2),
-						getString(R.string.title_section3), }));
+		
+		ArrayList<String> drawerItems = new ArrayList<>();
+        drawerItems.add(getString(R.string.title_section1));
+        drawerItems.add(getString(R.string.title_section2));
+        drawerItems.add(getString(R.string.title_section3));
+		
+		mDrawerListView.setAdapter(new DrawerAdapter(getActivity(), drawerItems));
+		
+//		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar()
+//				.getThemedContext(),
+//				android.R.layout.simple_list_item_activated_1,
+//				android.R.id.text1, new String[] {
+//						getString(R.string.title_section1),
+//						getString(R.string.title_section2),
+//						getString(R.string.title_section3), }));
+		
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		return mDrawerListView;
 	}
@@ -129,8 +143,9 @@ public class NavigationDrawerFragment extends Fragment {
 	 *            The android:id of this fragment in its activity's layout.
 	 * @param drawerLayout
 	 *            The DrawerLayout containing this fragment's UI.
+	 * @param toolbar 
 	 */
-	public void setUp(int fragmentId, DrawerLayout drawerLayout) {
+	public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
 		mFragmentContainerView = getActivity().findViewById(fragmentId);
 		mDrawerLayout = drawerLayout;
 
@@ -139,6 +154,8 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
 		// set up the drawer's list view with items and click listener
+		
+		((ActionBarActivity) getActivity()).setSupportActionBar(toolbar);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -148,7 +165,7 @@ public class NavigationDrawerFragment extends Fragment {
 		// between the navigation drawer and the action bar app icon.
 		mDrawerToggle = new ActionBarDrawerToggle(getActivity(), /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+		toolbar, /* nav drawer image to replace 'Up' caret */
 		R.string.navigation_drawer_open, /*
 										 * "open drawer" description for
 										 * accessibility
