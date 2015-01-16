@@ -112,12 +112,16 @@ public class Client {
 	 * @param context
 	 * @param user
 	 */
+	
 	public static void saveSession(Context context, User user){
 		//save the token
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString("session_token", user.getSession_token());
 		editor.putLong("user_id", user.getId());
+		editor.putString("email", user.getEmail());
+		editor.putString("profile_pic_url", user.getProfile_pic_url_value());
+		editor.putString("profile_pic_extension", user.getProfile_pic_extension());
 		editor.commit();
 	}
 	
@@ -128,6 +132,7 @@ public class Client {
 		editor.remove("user_id");
 		editor.commit();
 	}
+	
 	
 	public static Session getSession(Context context){
 		if(session == null){
@@ -160,6 +165,30 @@ public class Client {
 			this.userId = userId;
 		}
 		
+	}
+	
+	public static User getUserFromSession(Context context){
+		
+		if(user != null ){
+			return user;
+		}else{
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+			String session_token = pref.getString("session_token", null);
+			long user_id = pref.getLong("user_id", 0);
+			String email = pref.getString("email",null);
+			String profilePicUrl = pref.getString("profile_pic_url",null);
+			String profilePicExtension = pref.getString("profile_pic_extension",null);
+			if(email != null || session_token != null || user_id != 0){
+				user = new User();
+				user.setEmail(email);
+				user.setId(user_id);
+				user.setProfile_pic_url(profilePicUrl);
+				user.setProfile_pic_extension(profilePicExtension);
+				return user;
+			}
+			return null;
+
+		}
 	}
 	
 }

@@ -10,12 +10,18 @@
     tools:context="com.technext.tassignment1.fragments.ProfileFragment" >
 	
     <com.displayer.CircleImageView
-          android:id="@+id/profileImageView"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
+          android:id="@+id/imageViewProfile"
+          android:layout_width="150dp"
+          android:layout_height="150dp"
           android:scaleType="centerInside"
           android:layout_alignParentTop="true"
           app:stroke_width="5"
           app:stroke_color="@android:color/transparent"/> 
+          
+    <ImageView
+        android:id="@+id/imageViewUploadPhoto"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"/>
     
 </RelativeLayout>

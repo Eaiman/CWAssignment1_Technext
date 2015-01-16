@@ -44,6 +44,10 @@ public class User {
 		this.profile_pic_url = profile_pic_url;
 	}
 	
+	public String getProfile_pic_url_value(){
+		return profile_pic_url;
+	}
+	
 	public String getProfile_pic_url_300x300(){
 		return Client.URL_BASE + profile_pic_url + "_300x300"+"."+getProfile_pic_extension();
 	}

@@ -21,6 +21,7 @@ import com.technext.tassignment1.fragments.LoginFragment.LoginSuccessListener;
 import com.technext.tassignment1.fragments.ProfileFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment.RegistrationCompleteListener;
+import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
 import com.utils.ImageCache.ImageCacheParams;
 import com.utils.ImageFetcher;
@@ -68,6 +69,11 @@ public class MainActivity extends ActionBarActivity implements
         screenWidth = displayMetrics.widthPixels;
 		
 		initImageLoader(screenHeight,screenWidth);
+		if(Client.getUserFromSession(getApplicationContext()) == null){
+			Toast.makeText(getApplicationContext(), "user logged out", Toast.LENGTH_SHORT).show();
+		}else{
+			Toast.makeText(getApplicationContext(), "user logged in", Toast.LENGTH_SHORT).show();
+		}
 		
 	}
 	
