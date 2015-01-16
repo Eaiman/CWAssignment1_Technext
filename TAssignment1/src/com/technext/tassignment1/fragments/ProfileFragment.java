@@ -1,7 +1,9 @@
 package com.technext.tassignment1.fragments;
 
+import com.displayer.CircleImageView;
 import com.technext.tassignment1.MainActivity;
 import com.technext.tassignment1.R;
+import com.technext.tassignment1.http.Client;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ public class ProfileFragment extends Fragment {
 	 * fragment.
 	 */
 	private final static String ARG_SECTION_NUMBER = "section_number";
+	
+	private CircleImageView profileImageView;
 	
 	public ProfileFragment() {
 	}
@@ -42,6 +46,10 @@ public class ProfileFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_profile, container,
 				false);
+		
+		profileImageView = (CircleImageView) rootView.findViewById(R.id.profileImageView);
+		MainActivity.imageLoader.loadImage(Client.getUser().getProfile_pic_url(), profileImageView, null);
+		
 		return rootView;
 	}
 	

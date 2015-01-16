@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,10 +22,18 @@ import com.technext.tassignment1.fragments.ProfileFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment.RegistrationCompleteListener;
 import com.technext.tassignment1.model.User;
+import com.utils.ImageCache.ImageCacheParams;
+import com.utils.ImageFetcher;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks,LoginSuccessListener, RegistrationCompleteListener {
 
+	 private static final String IMAGE_CACHE_DIR = "cwc_tassignment1";
+	 public static ImageFetcher imageLoader; //use to load image from internet
+	 int screenWidth;
+	 int screenHeight;
+
+	
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
 	 * navigation drawer.
@@ -51,7 +60,35 @@ public class MainActivity extends ActionBarActivity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+		
+		
+		final DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        screenHeight = displayMetrics.heightPixels;
+        screenWidth = displayMetrics.widthPixels;
+		
+		initImageLoader(screenHeight,screenWidth);
+		
 	}
+	
+	 @Override
+	 public void onPause() {
+	     super.onPause();
+	     imageLoader.setPauseWork(false);
+	     imageLoader.setExitTasksEarly(true);
+	     imageLoader.flushCache();
+	 }
+	 @Override
+	 public void onResume() {
+	     super.onResume();
+	     imageLoader.setExitTasksEarly(false);
+	 }
+	 
+	 @Override
+	 public void onDestroy() {
+	     super.onDestroy();
+	     imageLoader.closeCache();
+	 }
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
@@ -183,6 +220,16 @@ public class MainActivity extends ActionBarActivity implements
 	public void onRegistrationComplete(User user) {
 		Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
 		
+	}
+	
+	private void initImageLoader(int screenHeight, int screenWidth){
+		int longest = (screenHeight > screenWidth ? screenHeight : screenHeight) / 2;
+		 ImageCacheParams cacheParams = new ImageCacheParams(MainActivity.this, IMAGE_CACHE_DIR);
+		 cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of app memory
+		 imageLoader = new ImageFetcher(MainActivity.this, longest);
+		 imageLoader.setLoadingImage(R.drawable.empty_photo);
+		 imageLoader.useLoadingImageForFadein(true);
+		 imageLoader.addImageCache(MainActivity.this.getSupportFragmentManager(), cacheParams);
 	}
 
 }

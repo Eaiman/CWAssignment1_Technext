@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+     xmlns:app="http://schemas.android.com/apk/res/com.technext.tassignment1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -8,6 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.technext.tassignment1.fragments.ProfileFragment" >
 	
-    
+    <com.displayer.CircleImageView
+          android:id="@+id/profileImageView"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:scaleType="centerInside"
+          android:layout_alignParentTop="true"
+          app:stroke_width="5"
+          app:stroke_color="@android:color/transparent"/> 
     
 </RelativeLayout>
