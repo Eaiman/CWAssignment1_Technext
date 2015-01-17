@@ -1,6 +1,7 @@
 package com.technext.tassignment1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -72,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements
 		if(Client.getUserFromSession(getApplicationContext()) == null){
 			Toast.makeText(getApplicationContext(), "user logged out", Toast.LENGTH_SHORT).show();
 		}else{
-			Toast.makeText(getApplicationContext(), "user logged in", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "user logged in"+Client.getUser().getProfile_pic_url(), Toast.LENGTH_SHORT).show();
 		}
 		
 	}
@@ -238,4 +239,9 @@ public class MainActivity extends ActionBarActivity implements
 		 imageLoader.addImageCache(MainActivity.this.getSupportFragmentManager(), cacheParams);
 	}
 
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(arg0, arg1, arg2);
+	}
 }

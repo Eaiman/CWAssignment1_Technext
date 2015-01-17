@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -21,6 +22,7 @@ public class Client {
 	
 	// authenticated
 	public static final String URL_PROFILE_EDIT = "/user/edit";
+	public static final String URL_UPLOAD_PRO_PIC = "/user/upload/profilePic";
 	
 	/**
 	 * Param keys
@@ -40,10 +42,10 @@ public class Client {
 	
 	
 	private static AsyncHttpClient client = new AsyncHttpClient();
-	private static Session session;
 	
 	//static User object to easily get user infomation
 	private static User user;
+	private static Gson gson = new Gson();
 	
 	public static User getUser(){
 		return user;
@@ -94,14 +96,9 @@ public class Client {
 	
 	public static boolean isValidSession(Context context){
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-		String session_token = pref.getString("session_token", null);
-		long user_id = pref.getLong("user_id", 0);
-		
-		if(session_token != null && !session_token.equalsIgnoreCase("")){
-			if(user_id != 0){
-				return true;
-			}
-			
+		String userString = pref.getString("user", null);
+		if(userString != null && !userString.equalsIgnoreCase("")){
+			return true;
 		}
 		
 		return false; //no session_token provided or lost, need to get it again
@@ -117,55 +114,28 @@ public class Client {
 		//save the token
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = pref.edit();
-		editor.putString("session_token", user.getSession_token());
+		/*editor.putString("session_token", user.getSession_token());
 		editor.putLong("user_id", user.getId());
 		editor.putString("email", user.getEmail());
-		editor.putString("profile_pic_url", user.getProfile_pic_url_value());
-		editor.putString("profile_pic_extension", user.getProfile_pic_extension());
+		if(user.getProfile_pic_url_value()!=null){
+			editor.putString("profile_pic_url", user.getProfile_pic_url_value());
+		}
+		if(user.getProfile_pic_extension()!=null){
+			editor.putString("profile_pic_extension", user.getProfile_pic_extension());
+		}*/
+		
+		editor.putString("user",gson.toJson(user));
+		
 		editor.commit();
 	}
 	
 	public static void removeSession(Context context){
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = pref.edit();
-		editor.remove("session_token");
-		editor.remove("user_id");
+		editor.remove("user");
 		editor.commit();
 	}
 	
-	
-	public static Session getSession(Context context){
-		if(session == null){
-			session = new Session();
-		}
-		
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-		String session_token = pref.getString("session_token", null);
-		long user_id = pref.getLong("user_id", 0);
-		session.setSessionToken(session_token);
-		session.setUserId(user_id);
-		return session;
-		
-	}
-	
-	
-	public static class Session{
-		private String sessionToken;
-		private long userId;
-		public String getSessionToken() {
-			return sessionToken;
-		}
-		public void setSessionToken(String sessionToken) {
-			this.sessionToken = sessionToken;
-		}
-		public long getUserId() {
-			return userId;
-		}
-		public void setUserId(long userId) {
-			this.userId = userId;
-		}
-		
-	}
 	
 	public static User getUserFromSession(Context context){
 		
@@ -173,17 +143,9 @@ public class Client {
 			return user;
 		}else{
 			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-			String session_token = pref.getString("session_token", null);
-			long user_id = pref.getLong("user_id", 0);
-			String email = pref.getString("email",null);
-			String profilePicUrl = pref.getString("profile_pic_url",null);
-			String profilePicExtension = pref.getString("profile_pic_extension",null);
-			if(email != null || session_token != null || user_id != 0){
-				user = new User();
-				user.setEmail(email);
-				user.setId(user_id);
-				user.setProfile_pic_url(profilePicUrl);
-				user.setProfile_pic_extension(profilePicExtension);
+			String userString = pref.getString("user", null);
+			if(userString != null && !userString.equalsIgnoreCase("")){
+				user = gson.fromJson(userString, User.class);
 				return user;
 			}
 			return null;
