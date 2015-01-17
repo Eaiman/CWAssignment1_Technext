@@ -7,5 +7,70 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.technext.tassignment1.fragments.RegistrationFragment" >
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+   		android:layout_height="match_parent"
+   		android:paddingLeft="20dp"
+   		android:paddingTop="20dp"
+   		android:paddingRight="20dp">
+   		
+        <TextView 
+            android:id="@+id/textViewEmailReg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="@string/textEmail"
+            />
+        <EditText 
+            android:id="@+id/editTextEmailReg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:layout_below="@+id/textViewEmailReg"
+            android:background="@drawable/bg_edit_text"/>
+        
+         <TextView 
+            android:id="@+id/textViewPasswordReg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_below="@+id/editTextEmailReg"
+            android:text="@string/textPassword"/>
+         	
+        <EditText 
+            android:id="@+id/editTextPasswordReg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_below="@+id/textViewPasswordReg"
+            android:background="@drawable/bg_edit_text"/>
+        <TextView 
+            android:id="@+id/textViewConfirmPasswordReg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_below="@+id/editTextPasswordReg"
+            android:text="@string/textConfirmPassword"/>
+         	
+        <EditText 
+            android:id="@+id/editTextConfirmPasswordReg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:layout_below="@+id/textViewConfirmPasswordReg"
+            android:background="@drawable/bg_edit_text"/>
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextConfirmPasswordReg"
+            android:text="@string/textRegButton"
+            
+            android:layout_alignParentRight="true"/>
+        
+        
+    </RelativeLayout>
+    
 
 </RelativeLayout>

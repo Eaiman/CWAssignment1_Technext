@@ -3,6 +3,7 @@ package com.technext.tassignment1.content;
 import android.app.Activity;
 import android.content.Intent;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 
 /***
  * 
@@ -20,11 +21,11 @@ import android.provider.MediaStore;
 
 public class ImageGalleryManager {
 	
-	private Activity context;
+	private Fragment context;
 	
 	public static final int IMAGE_GALLERY_REQUEST_CODE = 12; 
 	
-	public ImageGalleryManager(Activity context){
+	public ImageGalleryManager(Fragment context){
 		this.context = context;
 	}
 	
