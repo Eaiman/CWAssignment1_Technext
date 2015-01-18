@@ -30,13 +30,13 @@ import android.widget.Toast;
  *
  */
 
-public class SMSShare {
+public class TMessaging {
 	protected String SENT = "SENT";
 	protected String RECIEVED = "RECIEVED";
 	private Context context;
 	private SmsManager smsManager;
 	
-	public SMSShare(Activity activity){
+	public TMessaging(Activity activity){
 		this.context = activity;
 		smsManager = SmsManager.getDefault();
 	}
@@ -60,6 +60,19 @@ public class SMSShare {
 		
 		if(sendSmsIntent.resolveActivity(context.getPackageManager()) != null){
 			context.startActivity(sendSmsIntent);
+		}
+	}
+	
+	public void sendEmail(String emailAddress, String subject, String body){
+		Intent sendEmailIntent = new Intent();
+		sendEmailIntent.setAction(Intent.ACTION_SEND);
+		sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, emailAddress);
+		sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		sendEmailIntent.putExtra(Intent.EXTRA_TEXT, body);
+		sendEmailIntent.setType(HTTP.PLAIN_TEXT_TYPE);
+		
+		if(sendEmailIntent.resolveActivity(context.getPackageManager()) != null){
+			context.startActivity(sendEmailIntent);
 		}
 	}
 	
