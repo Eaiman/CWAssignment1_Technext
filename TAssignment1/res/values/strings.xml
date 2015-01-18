@@ -33,6 +33,8 @@
     <string name="textConfirmPassword">Confirm Password</string>
     <string name="textRegButton">Register</string>
     <string name="textLogin">Login</string>
+    <string name="textFirstName">Firstname</string>
+    <string name="textLastName">Lastname</string>
     <!--sohel end  -->
 
 </resources>

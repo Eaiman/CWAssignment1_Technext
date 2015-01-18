@@ -4,5 +4,5 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:background="@color/colorPrimary"
-	app:theme="@style/AppTheme.Base"
+	app:theme="@style/theme_toolbar"
 	app:popupTheme="@style/Theme.AppCompat" />

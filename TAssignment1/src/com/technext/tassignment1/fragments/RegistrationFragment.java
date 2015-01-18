@@ -22,6 +22,7 @@ import com.technext.tassignment1.R;
 import com.technext.tassignment1.dialog.SplashProgressDialog;
 import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
+import com.technext.tassignment1.utils.CommonUtils;
 
 public class RegistrationFragment extends Fragment implements OnClickListener{
 	/**
@@ -30,7 +31,8 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 	 */
 	private final static String ARG_SECTION_NUMBER = "section_number";
 	
-	
+	EditText editTextFirstname;
+	EditText editTextLastname;
 	EditText editTextEmail;
 	EditText editTextPassword;
 	EditText editTextConfirmPassword;
@@ -65,7 +67,8 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 		View rootView = inflater.inflate(R.layout.fragment_registration, container,
 				false);
 		
-		
+		editTextFirstname = (EditText) rootView.findViewById(R.id.editTextFirstname);
+		editTextLastname = (EditText) rootView.findViewById(R.id.editTextLastname);
 		editTextEmail = (EditText) rootView.findViewById(R.id.editTextEmailReg);
 		editTextPassword = (EditText) rootView.findViewById(R.id.editTextPasswordReg);
 		editTextConfirmPassword = (EditText) rootView.findViewById(R.id.editTextConfirmPasswordReg);
@@ -102,11 +105,19 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		if(v.getId() == R.id.buttonRegister){
+			String firstname = editTextFirstname.getText().toString();
+			String lastname = editTextLastname.getText().toString();
 			String email = editTextEmail.getText().toString();
 			String password = editTextPassword.getText().toString();
 			String confirmPassword = editTextConfirmPassword.getText().toString();
-			if(email == null || email.equalsIgnoreCase("")){
-				Toast.makeText(getActivity(), "Email Required", Toast.LENGTH_LONG).show();
+			if(firstname == null || firstname.equalsIgnoreCase("")){
+				Toast.makeText(getActivity(), "Firstname Required", Toast.LENGTH_LONG).show();
+			}
+			else if(lastname == null || lastname.equalsIgnoreCase("")){
+				Toast.makeText(getActivity(), "Lastname Required", Toast.LENGTH_LONG).show();
+			}
+			else if(email == null || email.equalsIgnoreCase("") || !CommonUtils.isValidEmail(email)){
+				Toast.makeText(getActivity(), "Please Provide a valid Email Address", Toast.LENGTH_LONG).show();
 			}else if(password == null || password.equalsIgnoreCase("")){
 				Toast.makeText(getActivity(), "Password Required", Toast.LENGTH_LONG).show();
 			}else if(confirmPassword == null || confirmPassword.equalsIgnoreCase("")){
@@ -115,6 +126,8 @@ public class RegistrationFragment extends Fragment implements OnClickListener{
 				Toast.makeText(getActivity(), "Password doesn't match", Toast.LENGTH_LONG).show();
 			}else{
 				RequestParams params = new RequestParams();
+				params.put(Client.PARAM_FIRSTNAME, firstname);
+				params.put(Client.PARAM_LASTNAME, lastname);
 				params.put(Client.PARAM_EMAIL,email);
 				params.put(Client.PARAM_PASSWORD,password);
 				params.put(Client.PARAM_PASSWORD_CONFIRMATION,confirmPassword);
