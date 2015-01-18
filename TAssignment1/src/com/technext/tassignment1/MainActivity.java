@@ -1,7 +1,10 @@
 package com.technext.tassignment1;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,9 +30,10 @@ import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
 import com.utils.ImageCache.ImageCacheParams;
 import com.utils.ImageFetcher;
+import com.utils.ImageFetcher.Callback;
 
 public class MainActivity extends ActionBarActivity implements
-		NavigationDrawerFragment.NavigationDrawerCallbacks,LoginSuccessListener, RegistrationCompleteListener {
+		NavigationDrawerFragment.NavigationDrawerCallbacks,LoginSuccessListener, RegistrationCompleteListener, Callback {
 
 	 private static final String IMAGE_CACHE_DIR = "cwc_tassignment1";
 	 public static ImageFetcher imageLoader; //use to load image from internet
@@ -237,11 +242,19 @@ public class MainActivity extends ActionBarActivity implements
 		 imageLoader.setLoadingImage(R.drawable.empty_photo);
 		 imageLoader.useLoadingImageForFadein(true);
 		 imageLoader.addImageCache(MainActivity.this.getSupportFragmentManager(), cacheParams);
+		 imageLoader.setCallback(MainActivity.this);
 	}
 
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(arg0, arg1, arg2);
+	}
+
+	@Override
+	public void getDrawable(Drawable drawable, Object name, File file) {
+		Toast.makeText(getApplicationContext(), ""+name, Toast.LENGTH_SHORT).show();
+		Log.e("name--> ", ""+name);
+		
 	}
 }
