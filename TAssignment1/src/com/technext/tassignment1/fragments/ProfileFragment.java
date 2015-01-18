@@ -2,6 +2,8 @@ package com.technext.tassignment1.fragments;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.displayer.CircleImageView;
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import com.loopj.android.http.RequestParams;
 import com.technext.tassignment1.MainActivity;
 import com.technext.tassignment1.R;
 import com.technext.tassignment1.content.ImageGalleryManager;
+import com.technext.tassignment1.dialog.SplashProgressDialog;
 import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
 
@@ -37,6 +40,7 @@ public class ProfileFragment extends Fragment implements OnClickListener{
 	
 	private CircleImageView imageViewProfile;
 	private ImageView imageViewUploadPhoto;
+	private SplashProgressDialog progress;
 	
 	private ImageGalleryManager imageGalleryManager;
 	
@@ -73,6 +77,17 @@ public class ProfileFragment extends Fragment implements OnClickListener{
 		imageViewUploadPhoto.setOnClickListener(this);
 		
 		MainActivity.imageLoader.loadImage(Client.getUser().getProfile_pic_url(), imageViewProfile, null);
+		
+	/*	ArrayList<String> pathList = getImagePaths();
+		Toast.makeText(getActivity(), "Path list size-->"+ pathList.size(), Toast.LENGTH_LONG).show();
+		Log.e("path size-->", ""+pathList.size());
+		
+		Iterator<String> iter = pathList.iterator();
+		
+		while(iter.hasNext()){
+			String path = iter.next();
+			Log.e("path---> ", path);
+		}*/
 		
 		return rootView;
 	}
@@ -143,12 +158,15 @@ public class ProfileFragment extends Fragment implements OnClickListener{
 	
 	AsyncHttpResponseHandler uploadImageResponseHandler = new AsyncHttpResponseHandler(){
 		public void onStart() {
-			
+			progress = new SplashProgressDialog(getActivity());
+			progress.show();
 		};
 		public void onSuccess(int statusCode, String response) {
 			Gson gson = new Gson();
 			User user = gson.fromJson(response, User.class);
+			Client.saveSession(getActivity(), user);
 			Client.setUser(user);
+			
 			Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
 			Log.e("new url--> ", user.getProfile_pic_url());
 			MainActivity.imageLoader.loadImage(user.getProfile_pic_url(), imageViewProfile, null);
@@ -157,7 +175,29 @@ public class ProfileFragment extends Fragment implements OnClickListener{
 			
 		};
 		public void onFinish() {
-			
+			progress.dismiss();
 		};
 	};
+	
+	private ArrayList<String> getImagePaths(){
+		  String [] proj={MediaStore.Images.Media.DATA};
+			Cursor mImageCursor = getActivity().managedQuery( MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+					proj, null, null, null );
+			
+			ArrayList<String> pathArray = new ArrayList<String>();
+			 
+			mImageCursor.moveToFirst();
+			while (!mImageCursor.isAfterLast()) {
+				
+				pathArray.add(getRealPathFromCursor(mImageCursor));
+				mImageCursor.moveToNext();
+			}
+			
+			return pathArray;
+	}
+	
+	private String getRealPathFromCursor(Cursor cursor){
+		 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	        return cursor.getString(column_index);
+	}
 }
