@@ -16,11 +16,43 @@
    		android:paddingRight="20dp">
    		
         <TextView 
+            android:id="@+id/textViewFirstname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="@string/textFirstName"
+            />
+        <EditText 
+            android:id="@+id/editTextFirstname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:layout_below="@+id/textViewFirstname"
+            />
+        
+        <TextView 
+            android:id="@+id/textViewLastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="@string/textLastName"
+             android:layout_below="@+id/editTextFirstname"
+            />
+        <EditText 
+            android:id="@+id/editTextLastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:layout_below="@+id/textViewLastname"
+           />
+        
+        <TextView 
             android:id="@+id/textViewEmailReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:text="@string/textEmail"
+             android:layout_below="@+id/editTextLastname"
             />
         <EditText 
             android:id="@+id/editTextEmailReg"
@@ -28,7 +60,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:layout_below="@+id/textViewEmailReg"
-            android:background="@drawable/bg_edit_text"/>
+           />
         
          <TextView 
             android:id="@+id/textViewPasswordReg"
@@ -44,7 +76,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:layout_below="@+id/textViewPasswordReg"
-            android:background="@drawable/bg_edit_text"/>
+           />
         <TextView 
             android:id="@+id/textViewConfirmPasswordReg"
             android:layout_width="wrap_content"
@@ -59,14 +91,14 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:layout_below="@+id/textViewConfirmPasswordReg"
-            android:background="@drawable/bg_edit_text"/>
+           />
         <Button
             android:id="@+id/buttonRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editTextConfirmPasswordReg"
             android:text="@string/textRegButton"
-            
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"/>
         
         

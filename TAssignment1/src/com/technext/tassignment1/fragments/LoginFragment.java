@@ -21,6 +21,7 @@ import com.technext.tassignment1.dialog.SplashProgressDialog;
 import com.technext.tassignment1.fragments.RegistrationFragment.RegistrationCompleteListener;
 import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
+import com.technext.tassignment1.utils.CommonUtils;
 
 public class LoginFragment extends Fragment implements OnClickListener{
 	/**
@@ -99,8 +100,8 @@ public class LoginFragment extends Fragment implements OnClickListener{
 		if(v.getId() == R.id.buttonLogin){
 			String email = editTextEmail.getText().toString();
 			String password = editTextPassword.getText().toString();
-			if(email == null || email.equalsIgnoreCase("")){
-				Toast.makeText(getActivity(), "Email Required", Toast.LENGTH_SHORT).show();
+			if(email == null || email.equalsIgnoreCase("") || !CommonUtils.isValidEmail(email)){
+				Toast.makeText(getActivity(), "Please Provide a valid Email Address", Toast.LENGTH_SHORT).show();
 			}else if(password == null || password.equalsIgnoreCase("")){
 				Toast.makeText(getActivity(), "Password Required", Toast.LENGTH_SHORT).show();
 			}else{

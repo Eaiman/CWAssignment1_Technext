@@ -118,27 +118,29 @@ public class ProfileFragment extends Fragment implements OnClickListener{
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
+		//super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == ImageGalleryManager.IMAGE_GALLERY_REQUEST_CODE){
+			Toast.makeText(getActivity(), "On activity result--> "+ resultCode, Toast.LENGTH_SHORT).show();
+			String path = data.getData().getPath();
+			Toast.makeText(getActivity(), "path--> "+path, Toast.LENGTH_LONG).show();
+			Log.e("path", path);
+			String filePath = getRealPathFromURI(data.getData());
+			Toast.makeText(getActivity(), "path + "+ filePath, Toast.LENGTH_SHORT).show();
+			File file = new File(filePath);
+			RequestParams params = new RequestParams();
+			params.put("user_id", Client.getUser().getId().toString());
+			params.put("session_token", Client.getUser().getSession_token());
+			try {
+				params.put("profile_pic", file);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			Client.post(getActivity(), Client.URL_UPLOAD_PRO_PIC, params, uploadImageResponseHandler);
 		
-		Toast.makeText(getActivity(), "On activity result--> "+ resultCode, Toast.LENGTH_SHORT).show();
-		String path = data.getData().getPath();
-		Toast.makeText(getActivity(), "path--> "+path, Toast.LENGTH_LONG).show();
-		Log.e("path", path);
-		String filePath = getRealPathFromURI(data.getData());
-		Toast.makeText(getActivity(), "path + "+ filePath, Toast.LENGTH_SHORT);
-		File file = new File(filePath);
-		RequestParams params = new RequestParams();
-		params.put("user_id", Client.getUser().getId().toString());
-		params.put("session_token", Client.getUser().getSession_token());
-		try {
-			params.put("profile_pic", file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		Client.post(getActivity(), Client.URL_UPLOAD_PRO_PIC, params, uploadImageResponseHandler);
-		
+			
 	}
 	
 	public String getRealPathFromURI(Uri contentUri) {
