@@ -48,26 +48,27 @@
             android:id="@+id/relativeLayoutProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeLayoutProfileImage" >
+            android:layout_below="@+id/relativeLayoutProfileImage"
+            android:padding="10dp" >
 
             <LinearLayout
                 android:id="@+id/linearLayoutFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="2" >
+                android:weightSum="5" >
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/textFirstName" />
 
                 <EditText
                     android:id="@+id/editTextInfoFirstName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="3" />
             </LinearLayout>
 
             <LinearLayout
@@ -76,19 +77,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayoutFirstName"
                 android:orientation="horizontal"
-                android:weightSum="2" >
+                android:weightSum="5" >
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/textLastName" />
 
                 <EditText
                     android:id="@+id/editTextInfoLasttName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="3" />
             </LinearLayout>
 
             <LinearLayout
@@ -97,19 +98,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayoutLastName"
                 android:orientation="horizontal"
-                android:weightSum="2" >
+                android:weightSum="5" >
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/textEmail" />
 
                 <EditText
                     android:id="@+id/editTextInfoEmail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="3" />
             </LinearLayout>
 
             <LinearLayout
@@ -118,19 +119,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayoutEmail"
                 android:orientation="horizontal"
-                android:weightSum="2" >
+                android:weightSum="5" >
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/textPassword" />
 
                 <EditText
                     android:id="@+id/editTextInfoPassword"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:inputType="textPassword" />
             </LinearLayout>
 
@@ -140,19 +141,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayoutPassword"
                 android:orientation="horizontal"
-                android:weightSum="2" >
+                android:weightSum="5" >
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="New Password" />
 
                 <EditText
                     android:id="@+id/editTextInfoNewPassword"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:inputType="textPassword" />
             </LinearLayout>
         </RelativeLayout>
