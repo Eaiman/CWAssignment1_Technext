@@ -3,6 +3,8 @@ package com.technext.tassignment1;
 import java.io.File;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import com.technext.tassignment1.fragments.LoginFragment.LoginSuccessListener;
 import com.technext.tassignment1.fragments.ProfileFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment.RegistrationCompleteListener;
+import com.technext.tassignment1.fragments.TestMainFragment;
 import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
 import com.utils.ImageCache.ImageCacheParams;
@@ -39,6 +42,11 @@ public class MainActivity extends ActionBarActivity implements
 	 public static ImageFetcher imageLoader; //use to load image from internet
 	 int screenWidth;
 	 int screenHeight;
+	 private static ProgressDialog pd;
+     static Context context;
+	 
+	 public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
+	 public final static String ARG_SECTION_NUMBER = "section_number";
 
 	
 	/**
@@ -57,6 +65,7 @@ public class MainActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		context = this;
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
 
@@ -123,6 +132,10 @@ public class MainActivity extends ActionBarActivity implements
 		case 3:
 			mTitle = getString(R.string.title_section3);
 			break;
+			
+		case 4:
+			mTitle = getString(R.string.title_section4);
+			break;
 		}
 	}
 
@@ -172,6 +185,10 @@ public class MainActivity extends ActionBarActivity implements
 
 		case 3:
 			fragment = ProfileFragment.newInstance(position);
+			break;
+			
+		case 4:
+			fragment = TestMainFragment.newInstance(position);
 			break;
 			
 		default:
@@ -246,10 +263,13 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(arg0, arg1, arg2);
-	}
+	  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	      super.onActivityResult(requestCode, resultCode, data);
+	      Fragment fragment = getSupportFragmentManager().findFragmentByTag(SOCIAL_NETWORK_TAG);
+	      if (fragment != null) {
+	          fragment.onActivityResult(requestCode, resultCode, data);
+	      }
+	  }
 
 	@Override
 	public void getDrawable(Drawable drawable, Object name, File file) {
@@ -257,4 +277,17 @@ public class MainActivity extends ActionBarActivity implements
 		Log.e("name--> ", ""+name);
 		
 	}
+	
+	public static void showProgress(String message) {
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setMessage(message);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+    }
+
+	public static void hideProgress() {
+        pd.dismiss();
+    }
 }
