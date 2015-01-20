@@ -110,10 +110,11 @@ public class NavigationDrawerFragment extends Fragment {
 					}
 				});
 		
-		ArrayList<String> drawerItems = new ArrayList<>();
+		ArrayList<String> drawerItems = new ArrayList<String>();
         drawerItems.add(getString(R.string.title_section1));
         drawerItems.add(getString(R.string.title_section2));
         drawerItems.add(getString(R.string.title_section3));
+        drawerItems.add(getString(R.string.title_section4));
 		
 		mDrawerListView.setAdapter(new DrawerAdapter(getActivity(), drawerItems));
 		
