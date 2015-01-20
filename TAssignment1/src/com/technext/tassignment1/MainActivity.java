@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements
 	 
 	 
 	 
-	 
+	 //dfjkgbdjf
 	 
 	 
 	 public static int screenWidth;
