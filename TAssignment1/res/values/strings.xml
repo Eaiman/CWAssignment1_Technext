@@ -26,6 +26,7 @@
     <string name="title_section1">Login</string>
     <string name="title_section2">Registration</string>
     <string name="title_section3">Profile</string>
+    <string name="title_section4">TestMainFragment</string>
     
     <!--sohel start  -->
     <string name="textEmail">Email</string>
@@ -36,5 +37,11 @@
     <string name="textFirstName">Firstname</string>
     <string name="textLastName">Lastname</string>
     <!--sohel end  -->
+    
+    <string name="facebook_app_id">223481731155936</string>
+    <string name="twitter_consumer_key">fm7M82ILfRkw5AC985HBGcsB9</string>
+    <string name="twitter_consumer_secret">zPsPjTbYSiHJvgxnYtX0OrmyTxCZ30GSeWYmL7C6SMRungKSjA</string>
+    <string name="instagram_client_id">fdfe48384e5a4434ba68b6c632469411</string>
+    <string name="instagram_client_secret">a0518715b7b24e91addcf3d9bed75ae6</string>
 
 </resources>

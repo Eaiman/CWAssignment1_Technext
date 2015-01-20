@@ -1,27 +1,162 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-     xmlns:app="http://schemas.android.com/apk/res/com.technext.tassignment1"
+    xmlns:app="http://schemas.android.com/apk/res/com.technext.tassignment1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+ 
+    tools:context="com.technext.tassignment1.fragments.ProfileFragment" >
+  <!--  android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.technext.tassignment1.fragments.ProfileFragment" >
-	
-    <com.displayer.CircleImageView
-          android:id="@+id/imageViewProfile"
-          android:layout_width="150dp"
-          android:layout_height="150dp"
-          android:scaleType="centerInside"
-          android:layout_alignParentTop="true"
-          app:stroke_width="5"
-          app:stroke_color="@android:color/transparent"/> 
-          
-    <ImageView
-        android:id="@+id/imageViewUploadPhoto"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentTop="true"/>
-    
-</RelativeLayout>
+    android:paddingTop="@dimen/activity_vertical_margin" -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutProfileImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/imageViewProfileBg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_bg" />
+
+            <com.displayer.CircleImageView
+                android:id="@+id/imageViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:scaleType="centerInside"
+                app:stroke_color="#EDEDED"
+                app:stroke_width="5" />
+
+            <ImageView
+                android:id="@+id/imageViewUploadPhoto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutProfileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayoutProfileImage"
+            android:padding="10dp" >
+
+            <LinearLayout
+                android:id="@+id/linearLayoutFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="5" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/textFirstName" />
+
+                <EditText
+                    android:id="@+id/editTextInfoFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutFirstName"
+                android:orientation="horizontal"
+                android:weightSum="5" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/textLastName" />
+
+                <EditText
+                    android:id="@+id/editTextInfoLasttName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutLastName"
+                android:orientation="horizontal"
+                android:weightSum="5" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/textEmail" />
+
+                <EditText
+                    android:id="@+id/editTextInfoEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutEmail"
+                android:orientation="horizontal"
+                android:weightSum="5" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/textPassword" />
+
+                <EditText
+                    android:id="@+id/editTextInfoPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutPassword"
+                android:orientation="horizontal"
+                android:weightSum="5" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="New Password" />
+
+                <EditText
+                    android:id="@+id/editTextInfoNewPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>
