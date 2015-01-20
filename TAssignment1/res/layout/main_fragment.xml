@@ -35,4 +35,14 @@
         android:layout_margin="8dp"
         android:textColor="#ffffffff"
         android:textSize="24sp"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Login via Instagram"
+        android:id="@+id/instagram"
+        android:layout_gravity="center_horizontal"
+        android:background="#49769C"
+        android:layout_margin="8dp"
+        android:textColor="#ffffffff"
+        android:textSize="24sp"/>
 </LinearLayout>
