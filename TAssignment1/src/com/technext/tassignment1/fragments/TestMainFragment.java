@@ -13,6 +13,7 @@ import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
+import com.github.gorbin.asne.instagram.InstagramSocialNetwork;
 import com.github.gorbin.asne.twitter.TwitterSocialNetwork;
 import com.technext.tassignment1.MainActivity;
 import com.technext.tassignment1.R;
@@ -36,6 +37,7 @@ public class TestMainFragment extends Fragment implements SocialNetworkManager.O
     private Button facebook;
     private Button twitter;
     private Button googleplus;
+    private Button instagram;
 
     public TestMainFragment() {
     }
@@ -60,16 +62,20 @@ public class TestMainFragment extends Fragment implements SocialNetworkManager.O
         twitter.setOnClickListener(loginClick);
         googleplus = (Button) rootView.findViewById(R.id.googleplus);
         googleplus.setOnClickListener(loginClick);
+        instagram = (Button) rootView.findViewById(R.id.instagram);
+        instagram.setOnClickListener(loginClick);
 
         //Get Keys for initiate SocialNetworks
         String TWITTER_CONSUMER_KEY = getActivity().getString(R.string.twitter_consumer_key);
         String TWITTER_CONSUMER_SECRET = getActivity().getString(R.string.twitter_consumer_secret);
         String TWITTER_CALLBACK_URL = "oauth://ASNE";
+        String INSTAGRAM_CLIENT_ID = getActivity().getString(R.string.instagram_client_id);
+        String INSTAGRAM_CLIENT_SECRET = getActivity().getString(R.string.instagram_client_secret);
 
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
         fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));
-        String linkedInScope = "r_basicprofile+r_fullprofile+rw_nus+r_network+w_messages+r_emailaddress+r_contactinfo";
+//        String linkedInScope = "r_basicprofile+r_fullprofile+rw_nus+r_network+w_messages+r_emailaddress+r_contactinfo";
 
         //Use manager to manage SocialNetworks
         mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
@@ -86,9 +92,13 @@ public class TestMainFragment extends Fragment implements SocialNetworkManager.O
             TwitterSocialNetwork twNetwork = new TwitterSocialNetwork(this, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CALLBACK_URL);
             mSocialNetworkManager.addSocialNetwork(twNetwork);
 
-            //Init and add to manager LinkedInSocialNetwork
+            //Init and add to manager GooglePlusSocialNetwork
             GooglePlusSocialNetwork gpNetwork = new GooglePlusSocialNetwork(this);
             mSocialNetworkManager.addSocialNetwork(gpNetwork);
+            
+            // Init and add to manager GooglePlusSocialNetwork
+            InstagramSocialNetwork instagramNetwork = new InstagramSocialNetwork(this, INSTAGRAM_CLIENT_ID, INSTAGRAM_CLIENT_SECRET, TWITTER_CALLBACK_URL, null);
+            mSocialNetworkManager.addSocialNetwork(instagramNetwork);
 
             //Initiate every network from mSocialNetworkManager
             getFragmentManager().beginTransaction().add(mSocialNetworkManager, MainActivity.SOCIAL_NETWORK_TAG).commit();
@@ -118,6 +128,9 @@ public class TestMainFragment extends Fragment implements SocialNetworkManager.O
                 case GooglePlusSocialNetwork.ID:
                     googleplus.setText("Show GooglePlus profile");
                     break;
+                case InstagramSocialNetwork.ID:
+                    instagram.setText("Show Instagram profile");
+                    break;
             }
         }
     }
@@ -145,6 +158,9 @@ public class TestMainFragment extends Fragment implements SocialNetworkManager.O
                     break;
                 case R.id.googleplus:
                     networkId = GooglePlusSocialNetwork.ID;
+                    break;
+                case R.id.instagram:
+                    networkId = InstagramSocialNetwork.ID;
                     break;
             }
             SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);

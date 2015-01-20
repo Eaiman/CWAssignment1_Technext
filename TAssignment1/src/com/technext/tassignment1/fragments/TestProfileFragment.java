@@ -1,9 +1,17 @@
 package com.technext.tassignment1.fragments;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,10 +30,14 @@ import com.github.gorbin.asne.core.listener.OnRequestSocialPersonCompleteListene
 import com.github.gorbin.asne.core.persons.SocialPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
+import com.github.gorbin.asne.instagram.InstagramSocialNetwork;
 import com.github.gorbin.asne.twitter.TwitterSocialNetwork;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 import com.technext.tassignment1.MainActivity;
 import com.technext.tassignment1.R;
+import com.technext.tassignment1.content.ImageGalleryManager;
+import com.technext.tassignment1.http.Client;
 
 public class TestProfileFragment extends Fragment implements OnRequestSocialPersonCompleteListener {
     private String message = "Need simple social networks integration? Check this lbrary:";
@@ -115,6 +127,9 @@ public class TestProfileFragment extends Fragment implements OnRequestSocialPers
     @Override
     public void onError(int networkId, String requestID, String errorMessage, Object data) {
         MainActivity.hideProgress();
+        Log.e("Person requestID", requestID);
+        Log.e("Person errorMessage", errorMessage);
+        Log.e("Person data", data.toString());
         Toast.makeText(getActivity(), "ERROR: " + errorMessage, Toast.LENGTH_LONG).show();
     }
 
@@ -142,6 +157,10 @@ public class TestProfileFragment extends Fragment implements OnRequestSocialPers
                     postParams.putString(SocialNetwork.BUNDLE_LINK, link);
                     if(networkId == GooglePlusSocialNetwork.ID) {
                         socialNetwork.requestPostDialog(postParams, postingComplete);
+                    }if(networkId == InstagramSocialNetwork.ID) {
+                    	Intent imageGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                		startActivityForResult(imageGalleryIntent, 12);
+                        //socialNetwork.requestPostPhoto(postParams, postingComplete);
                     } else {
                         socialNetwork.requestPostLink(postParams, message, postingComplete);
                     }
@@ -161,6 +180,35 @@ public class TestProfileFragment extends Fragment implements OnRequestSocialPers
             ad.create().show();
         }
     };
+    
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(requestCode == 12){
+			Toast.makeText(getActivity(), "On activity result--> "+ resultCode, Toast.LENGTH_SHORT).show();
+			String path = data.getData().getPath();
+			Toast.makeText(getActivity(), "path--> "+path, Toast.LENGTH_LONG).show();
+			Log.e("path", path);
+			String filePath = getRealPathFromURI(data.getData());
+			Toast.makeText(getActivity(), "path + "+ filePath, Toast.LENGTH_SHORT).show();
+			File file = new File(filePath);
+			
+			socialNetwork.requestPostPhoto(file, "CWC Test", postingComplete);
+		}
+    };
+    
+    public String getRealPathFromURI(Uri contentUri) {
+
+        // can post image
+        String [] proj={MediaStore.Images.Media.DATA};
+        Cursor cursor = getActivity().managedQuery( contentUri,
+                        proj, // Which columns to return
+                        null,       // WHERE clause; which rows to return (all rows)
+                        null,       // WHERE clause selection arguments (none)
+                        null); // Order-by clause (ascending by name)
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
+	}
 
     private OnPostingCompleteListener postingComplete = new OnPostingCompleteListener() {
         @Override
@@ -189,6 +237,10 @@ public class TestProfileFragment extends Fragment implements OnRequestSocialPers
             case FacebookSocialNetwork.ID:
                 color = getResources().getColor(R.color.facebook);
                 image = R.drawable.com_facebook_profile_picture_blank_square;
+                break;
+            case InstagramSocialNetwork.ID:
+                color = getResources().getColor(R.color.instagram);
+                image = R.drawable.user;
                 break;
         }
         frame.setBackgroundColor(color);
