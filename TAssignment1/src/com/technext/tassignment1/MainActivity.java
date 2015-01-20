@@ -4,6 +4,7 @@ import java.io.File;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.plus.Plus;
+
+
+
+
 import com.technext.tassignment1.fragments.LoginFragment;
 import com.technext.tassignment1.fragments.LoginFragment.LoginSuccessListener;
 import com.technext.tassignment1.fragments.ProfileFragment;
@@ -33,13 +44,25 @@ import com.utils.ImageFetcher;
 import com.utils.ImageFetcher.Callback;
 
 public class MainActivity extends ActionBarActivity implements
-		NavigationDrawerFragment.NavigationDrawerCallbacks,LoginSuccessListener, RegistrationCompleteListener, Callback {
+		NavigationDrawerFragment.NavigationDrawerCallbacks,LoginSuccessListener, RegistrationCompleteListener, Callback,
+	      ConnectionCallbacks, OnConnectionFailedListener{
 
 	 private static final String IMAGE_CACHE_DIR = "cwc_tassignment1";
 	 public static ImageFetcher imageLoader; //use to load image from internet
-	 int screenWidth;
-	 int screenHeight;
+	 public static int screenWidth;
+	 public static int screenHeight;
 
+	 
+	 /* Request code used to invoke sign in user interactions. */
+	  private static final int RC_SIGN_IN = 0;
+
+	  /* Client used to interact with Google APIs. */
+	 // private GoogleApiClient mGoogleApiClient;
+
+	  /* A flag indicating that a PendingIntent is in progress and prevents
+	   * us from starting further intents.
+	   */
+	  private boolean mIntentInProgress;
 	
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the
@@ -81,6 +104,13 @@ public class MainActivity extends ActionBarActivity implements
 			Toast.makeText(getApplicationContext(), "user logged in"+Client.getUser().getProfile_pic_url(), Toast.LENGTH_SHORT).show();
 		}
 		
+		/*  mGoogleApiClient = new GoogleApiClient.Builder(this)
+	        .addConnectionCallbacks(MainActivity.this)
+	        .addOnConnectionFailedListener(this)
+	        .addApi(Plus.API)
+	        .addScope(Plus.SCOPE_PLUS_LOGIN)
+	        .build();*/
+		
 	}
 	
 	 @Override
@@ -95,6 +125,21 @@ public class MainActivity extends ActionBarActivity implements
 	     super.onResume();
 	     imageLoader.setExitTasksEarly(false);
 	 }
+	 @Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		//mGoogleApiClient.connect();
+	}
+	 
+	 @Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		/* if (mGoogleApiClient.isConnected()) {
+		      mGoogleApiClient.disconnect();
+		 }*/
+	}
 	 
 	 @Override
 	 public void onDestroy() {
@@ -246,10 +291,18 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(arg0, arg1, arg2);
-	}
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		/* if (requestCode == RC_SIGN_IN) {
+			    mIntentInProgress = false;
+
+			    if (!mGoogleApiClient.isConnecting()) {
+			      mGoogleApiClient.connect();
+			    }
+			  }
+			  
+*/	
+		super.onActivityResult(requestCode, requestCode, data);
+		}
 
 	@Override
 	public void getDrawable(Drawable drawable, Object name, File file) {
@@ -257,4 +310,38 @@ public class MainActivity extends ActionBarActivity implements
 		Log.e("name--> ", ""+name);
 		
 	}
+
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		// TODO Auto-generated method stub
+		 /*if (!mIntentInProgress && result.hasResolution()) {
+			    try {
+			      mIntentInProgress = true;
+			      startIntentSenderForResult(result.getResolution().getIntentSender(),
+			          RC_SIGN_IN, null, 0, 0, 0);
+			    } catch (SendIntentException e) {
+			      // The intent was canceled before it was sent.  Return to the default
+			      // state and attempt to connect to get an updated ConnectionResult.
+			      mIntentInProgress = false;
+			      mGoogleApiClient.connect();
+			    }
+			  }*/
+		
+	}
+
+	@Override
+	public void onConnected(Bundle arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onConnectionSuspended(int cause) {
+		// TODO Auto-generated method stub
+		//mGoogleApiClient.connect();
+		
+	}
+	
+	
 }

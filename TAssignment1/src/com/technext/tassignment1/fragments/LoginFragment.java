@@ -1,6 +1,8 @@
 package com.technext.tassignment1.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.plus.PlusShare;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -70,6 +73,24 @@ public class LoginFragment extends Fragment implements OnClickListener{
 		editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
 		buttonLogin = (Button) rootView.findViewById(R.id.buttonLogin);
 		buttonLogin.setOnClickListener(this);
+		
+		
+		Button shareButton = (Button) rootView.findViewById(R.id.share_button);
+		shareButton.setOnClickListener(new OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+		      // Launch the Google+ share dialog with attribution to your app.
+		      Intent shareIntent = new PlusShare.Builder(getActivity())
+		          .setType("text/plain")
+		          .setText("Welcome to the Google+ platform.")
+		          .setContentUrl(Uri.parse("https://developers.google.com/+/"))
+		          .getIntent();
+
+		      startActivityForResult(shareIntent, 0);
+		    }
+		});
+		
+		
 		return rootView;
 	}
 	
