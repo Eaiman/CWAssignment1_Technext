@@ -26,3 +26,13 @@ username and password for facebook is given below: <br\>
 </ul>
 </li>
 </ul>
+
+<strong>Roles:<strong/> <br />
+<ul>
+<li><strong>Ahmed-Bin-Zaman:</strong> UI Design and UX</li>
+<li><strong>Eaiman Shoshi:</strong> Social Sharing And Skeleton</li>
+<li><strong>Arifuzzaman Sohel:</strong>API Design and Login and Registration</li>
+<li><strong>Aqib Ashef:</strong>User Profile and SMS, E-mail Sharing</li>
+</ul>
+</li>
+</ul>
