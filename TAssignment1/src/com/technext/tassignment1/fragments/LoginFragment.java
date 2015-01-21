@@ -12,6 +12,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.plus.PlusShare;
@@ -38,8 +40,10 @@ public class LoginFragment extends Fragment implements OnClickListener{
 	private EditText editTextEmail;
 	private EditText editTextPassword;
 	private Button buttonLogin;
+	private LinearLayout registerLayout;
 	
 	private LoginSuccessListener loginSuccessListener;
+	private RegistrationClickListener registerClickListener;
 	private SplashProgressDialog progress;
 	
 	public LoginFragment(){
@@ -71,25 +75,11 @@ public class LoginFragment extends Fragment implements OnClickListener{
 		
 		editTextEmail = (EditText) rootView.findViewById(R.id.editTextEmail);
 		editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
+		registerLayout = (LinearLayout) rootView.findViewById(R.id.registerText);
+		registerLayout.setOnClickListener(this);
+		
 		buttonLogin = (Button) rootView.findViewById(R.id.buttonLogin);
 		buttonLogin.setOnClickListener(this);
-		
-		
-		Button shareButton = (Button) rootView.findViewById(R.id.share_button);
-		shareButton.setOnClickListener(new OnClickListener() {
-		    @Override
-		    public void onClick(View v) {
-		      // Launch the Google+ share dialog with attribution to your app.
-		      Intent shareIntent = new PlusShare.Builder(getActivity())
-		          .setType("text/plain")
-		          .setText("Welcome to the Google+ platform.")
-		          .setContentUrl(Uri.parse("https://developers.google.com/+/"))
-		          .getIntent();
-
-		      startActivityForResult(shareIntent, 0);
-		    }
-		});
-		
 		
 		return rootView;
 	}
@@ -107,6 +97,12 @@ public class LoginFragment extends Fragment implements OnClickListener{
 		}
 
 		loginSuccessListener = (LoginSuccessListener) activity;
+		
+		if (!(activity instanceof RegistrationClickListener)) {
+			throw new IllegalStateException(
+					"Activity must implement fragment's callbacks RegistrationClickListener.");
+		}
+		registerClickListener = (RegistrationClickListener) activity;
 
 	}
 	
@@ -131,6 +127,9 @@ public class LoginFragment extends Fragment implements OnClickListener{
 				params.put(Client.PARAM_PASSWORD, password);
 				Client.raw_post(Client.URL_LOGIN, params, loginResponseHandler);
 			}
+		}
+		else if(v.getId() == R.id.registerText){
+			registerClickListener.onRegisterClicked();
 		}
 		
 	}
@@ -165,5 +164,8 @@ public class LoginFragment extends Fragment implements OnClickListener{
 	
 	public interface LoginSuccessListener{
 		public void onloginComplete(User user);
+	}
+	public interface RegistrationClickListener{
+		public void onRegisterClicked();
 	}
 }
