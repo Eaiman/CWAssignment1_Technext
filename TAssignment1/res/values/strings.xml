@@ -37,6 +37,13 @@
     <string name="textLogin">Login</string>
     <string name="textFirstName">Firstname</string>
     <string name="textLastName">Lastname</string>
+     <string name="textNewPassword">New Password</string>
+     <string name="textEditButton">Edit</string>
+      <string name="textSaveButton">Save</string>
+      <string name="hintCurrentPassword">Please Enter Current Password</string>
+       <string name="hintNewPassword">Enter New Password</string>
+       <string name="textNotRegistered">Not registered yet?</string>
+       
     <!--sohel end  -->
     
     <string name="facebook_app_id">223481731155936</string>

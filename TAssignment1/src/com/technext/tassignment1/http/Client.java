@@ -31,6 +31,7 @@ public class Client {
 	public static final String PARAM_SESSION_TOKEN = "session_token";
 	public static final String PARAM_EMAIL = "email";
 	public static final String PARAM_PASSWORD = "password";
+	public static final String PARAM_NEW_PASSWORD = "new_password";
 	public static final String PARAM_PASSWORD_CONFIRMATION = "password_confirmation";
 	public static final String PARAM_PROFILE_PIC = "profile_pic";
 	public static final String PARAM_FIRSTNAME = "firstname";
