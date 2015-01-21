@@ -62,6 +62,11 @@ public class DrawerAdapter extends BaseAdapter {
  
         return recycledView;
     }
+    
+    public void changeDataSet(ArrayList<String> dataset){
+    	mDataSet = dataset;
+    	notifyDataSetChanged();
+    }
  
     private static class ViewHolder {
         TextView title;

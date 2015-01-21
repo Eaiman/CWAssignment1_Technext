@@ -56,59 +56,44 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="null"
-                android:maxLines="3"
-                android:singleLine="false"
-                android:id="@+id/id"
-                android:padding="8dp"
-                android:layout_below="@+id/name"
-                android:layout_alignLeft="@+id/name"
-                android:layout_alignStart="@+id/name" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/info"
-                android:padding="8dp"
-                android:layout_marginBottom="4dp"
-                android:layout_below="@+id/imageView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
         </RelativeLayout>
-        <LinearLayout
+        
+        <LinearLayout 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonLayout"
-            android:layout_below="@+id/card"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:background="@color/grey_light">
-
+            android:background="#FFCCCCCC"
+            android:orientation="vertical"
+            android:layout_below="@+id/card">
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Friends"
-                android:id="@+id/friends"
-                android:padding="8dp"
-                android:background="@color/dark"
-                android:layout_marginRight="1dp"
-                android:layout_weight="1"
-                android:textColor="#ffffffff"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Share"
-                android:id="@+id/share"
-                android:padding="8dp"
-                android:background="@color/dark"
-                android:layout_weight="1"
-                android:textColor="#ffffffff"/>
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Text Share"
+		        android:id="@+id/share_text"
+		        android:layout_gravity="center_horizontal"
+		        android:background="#3b5998"
+		        android:layout_margin="8dp"
+		        android:textColor="#ffffffff"
+		        android:textSize="24sp"/>
+		    <Button
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Link Share"
+		        android:id="@+id/share_link"
+		        android:layout_gravity="center_horizontal"
+		        android:background="#55ACEE"
+		        android:layout_margin="8dp"
+		        android:textColor="#ffffffff"
+		        android:textSize="24sp"/>
+		    <Button
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Photo Share"
+		        android:id="@+id/share_photo"
+		        android:layout_gravity="center_horizontal"
+		        android:background="#287bbc"
+		        android:layout_margin="8dp"
+		        android:textColor="#ffffffff"
+		        android:textSize="24sp"/>
         </LinearLayout>
     </RelativeLayout>
 

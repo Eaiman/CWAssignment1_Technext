@@ -1,6 +1,8 @@
 package com.technext.tassignment1;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -25,6 +27,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 
+
+
+
+
+import com.github.gorbin.asne.core.SocialNetwork;
+import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
@@ -38,8 +46,9 @@ import com.technext.tassignment1.fragments.LoginFragment;
 import com.technext.tassignment1.fragments.LoginFragment.LoginSuccessListener;
 import com.technext.tassignment1.fragments.ProfileFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment;
+import com.technext.tassignment1.fragments.ShareContentFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment.RegistrationCompleteListener;
-import com.technext.tassignment1.fragments.TestMainFragment;
+import com.technext.tassignment1.fragments.SocialNetworkChooserFragment;
 import com.technext.tassignment1.http.Client;
 import com.technext.tassignment1.model.User;
 import com.utils.ImageCache.ImageCacheParams;
@@ -47,7 +56,7 @@ import com.utils.ImageFetcher;
 import com.utils.ImageFetcher.Callback;
 
 public class MainActivity extends ActionBarActivity implements
-		NavigationDrawerFragment.NavigationDrawerCallbacks,LoginSuccessListener, RegistrationCompleteListener, Callback,
+		NavigationDrawerFragment.NavigationDrawerCallbacks, LoginSuccessListener, RegistrationCompleteListener, Callback,
 	      ConnectionCallbacks, OnConnectionFailedListener{
 
 	 private static final String IMAGE_CACHE_DIR = "cwc_tassignment1";
@@ -86,6 +95,9 @@ public class MainActivity extends ActionBarActivity implements
 	 * navigation drawer.
 	 */
 	private NavigationDrawerFragment mNavigationDrawerFragment;
+	
+	private ArrayList<String> drawerItems_login = new ArrayList<String>();
+	private ArrayList<String> drawerItems_logout = new ArrayList<String>();
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -98,6 +110,14 @@ public class MainActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		context = this;
+		
+		drawerItems_logout.add(getString(R.string.title_login));
+		drawerItems_logout.add(getString(R.string.title_registration));
+		drawerItems_logout.add(getString(R.string.title_share));
+		
+		drawerItems_login.add(getString(R.string.title_profile));
+		drawerItems_login.add(getString(R.string.title_logout));
+		drawerItems_login.add(getString(R.string.title_share));
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
 
@@ -118,8 +138,10 @@ public class MainActivity extends ActionBarActivity implements
 		initImageLoader(screenHeight,screenWidth);
 		if(Client.getUserFromSession(getApplicationContext()) == null){
 			Toast.makeText(getApplicationContext(), "user logged out", Toast.LENGTH_SHORT).show();
+			mNavigationDrawerFragment.changeDataset(drawerItems_logout);
 		}else{
 			Toast.makeText(getApplicationContext(), "user logged in"+Client.getUser().getProfile_pic_url(), Toast.LENGTH_SHORT).show();
+			mNavigationDrawerFragment.changeDataset(drawerItems_login);
 		}
 		
 		/*  mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -176,20 +198,31 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	public void onSectionAttached(int number) {
-		switch (number) {
-		case 1:
-			mTitle = getString(R.string.title_section1);
-			break;
-		case 2:
-			mTitle = getString(R.string.title_section2);
-			break;
-		case 3:
-			mTitle = getString(R.string.title_section3);
-			break;
-			
-		case 4:
-			mTitle = getString(R.string.title_section4);
-			break;
+		
+		if(Client.getUserFromSession(getApplicationContext()) == null){
+			switch (number) {
+				case 1:
+					mTitle = getString(R.string.title_login);
+					break;
+				case 2:
+					mTitle = getString(R.string.title_registration);
+					break;
+				case 3:
+					mTitle = getString(R.string.title_share);
+					break;
+				}
+		}else if(Client.getUserFromSession(getApplicationContext()) != null){
+			switch (number) {
+				case 1:
+					mTitle = getString(R.string.title_profile);
+					break;
+				case 2:
+					mTitle = getString(R.string.title_logout);
+					break;
+				case 3:
+					mTitle = getString(R.string.title_share);
+					break;
+				}
 		}
 	}
 
@@ -219,8 +252,11 @@ public class MainActivity extends ActionBarActivity implements
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		
+		if(id == R.id.action_logout){
+			if(Client.getUserFromSession(getApplicationContext()) != null){
+				logout();
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -228,81 +264,98 @@ public class MainActivity extends ActionBarActivity implements
 	private Fragment fragment = null;
 	
 	private Fragment chooseFragment(int position){
-		switch (position) {
-		case 1:
-			fragment = LoginFragment.newInstance(position);
-			break;
-
-		case 2:
-			fragment = RegistrationFragment.newInstance(position);
-			break;
-
-		case 3:
-			fragment = ProfileFragment.newInstance(position);
-			break;
-			
-		case 4:
-			fragment = TestMainFragment.newInstance(position);
-			break;
-			
-		default:
-			fragment = PlaceholderFragment.newInstance(position);
-			break;
+//		switch (position) {
+//		case 1:
+//			fragment = LoginFragment.newInstance(position);
+//			break;
+//
+//		case 2:
+//			fragment = RegistrationFragment.newInstance(position);
+//			break;
+//
+//		case 3:
+//			fragment = ProfileFragment.newInstance(position);
+//			break;
+//			
+//		case 4:
+//			fragment = SocialNetworkChooserFragment.newInstance(position);
+//			break;
+//			
+//		default:
+//			fragment = PlaceholderFragment.newInstance(position);
+//			break;
+//		}
+		
+		if(Client.getUserFromSession(getApplicationContext()) == null){
+			switch (position) {
+				case 1:
+					fragment = LoginFragment.newInstance(position);
+					break;
+				case 2:
+					fragment = RegistrationFragment.newInstance(position);
+					break;
+				case 3:
+					fragment = SocialNetworkChooserFragment.newInstance(position);
+					break;
+				}
+		}else if(Client.getUserFromSession(getApplicationContext()) != null){
+			switch (position) {
+				case 1:
+					fragment = ProfileFragment.newInstance(position);
+					break;
+				case 2:
+					logout();
+					break;
+				case 3:
+					fragment = SocialNetworkChooserFragment.newInstance(position);
+					break;
+				}
 		}
 		
 		return fragment;
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			PlaceholderFragment fragment = new PlaceholderFragment();
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
+	private void logout() {
+		if(fragment instanceof SocialNetworkChooserFragment){
+			SocialNetworkManager mSocialNetworkManager = ((SocialNetworkChooserFragment) fragment).getSocialNetworkManager();
+			if(mSocialNetworkManager != null && !mSocialNetworkManager.getInitializedSocialNetworks().isEmpty()) {
+                List<SocialNetwork> socialNetworks = mSocialNetworkManager.getInitializedSocialNetworks();
+                for (SocialNetwork socialNetwork : socialNetworks) {
+                	if(socialNetwork.isConnected()){
+	                	socialNetwork.cancelAll();
+	                    socialNetwork.logout();
+                	}
+                }
+            }
 		}
-
-		public PlaceholderFragment() {
+		
+		if(fragment instanceof ShareContentFragment){
+			SocialNetwork socialNetwork = ((ShareContentFragment) fragment).getSocialNetwork();
+			if(socialNetwork != null && socialNetwork.isConnected()){
+            	socialNetwork.cancelAll();
+                socialNetwork.logout();
+        	}
 		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
-
-		@Override
-		public void onAttach(Activity activity) {
-			super.onAttach(activity);
-			((MainActivity) activity).onSectionAttached(getArguments().getInt(
-					ARG_SECTION_NUMBER));
-		}
+		
+		Client.removeSession(this);
+		Client.setUser(null);
+		
+		mNavigationDrawerFragment.changeDataset(drawerItems_logout);
+		redirect(1);
 	}
 
 	@Override
 	public void onloginComplete(User user) {
 		Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
-		
+		mNavigationDrawerFragment.changeDataset(drawerItems_login);
+		redirect(1);
 	}
 
 	@Override
 	public void onRegistrationComplete(User user) {
 		Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
-		
+		mNavigationDrawerFragment.changeDataset(drawerItems_login);
+		redirect(1);
 	}
 	
 	private void initImageLoader(int screenHeight, int screenWidth){
@@ -383,4 +436,13 @@ public class MainActivity extends ActionBarActivity implements
 	public static void hideProgress() {
         pd.dismiss();
     }
+	
+	private void redirect(int position){
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager
+				.beginTransaction()
+				.replace(R.id.container,
+						chooseFragment(position)).commit();
+		onSectionAttached(position);
+	}
 }
