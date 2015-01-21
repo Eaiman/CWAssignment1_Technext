@@ -44,6 +44,7 @@ import com.google.android.gms.plus.Plus;
 
 import com.technext.tassignment1.fragments.LoginFragment;
 import com.technext.tassignment1.fragments.LoginFragment.LoginSuccessListener;
+import com.technext.tassignment1.fragments.LoginFragment.RegistrationClickListener;
 import com.technext.tassignment1.fragments.ProfileFragment;
 import com.technext.tassignment1.fragments.RegistrationFragment;
 import com.technext.tassignment1.fragments.ShareContentFragment;
@@ -57,7 +58,7 @@ import com.utils.ImageFetcher.Callback;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks, LoginSuccessListener, RegistrationCompleteListener, Callback,
-	      ConnectionCallbacks, OnConnectionFailedListener{
+	      ConnectionCallbacks, OnConnectionFailedListener, RegistrationClickListener{
 
 	 private static final String IMAGE_CACHE_DIR = "cwc_tassignment1";
 	 public static ImageFetcher imageLoader; //use to load image from internet
@@ -137,10 +138,10 @@ public class MainActivity extends ActionBarActivity implements
 		
 		initImageLoader(screenHeight,screenWidth);
 		if(Client.getUserFromSession(getApplicationContext()) == null){
-			Toast.makeText(getApplicationContext(), "user logged out", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "user logged out", Toast.LENGTH_SHORT).show();
 			mNavigationDrawerFragment.changeDataset(drawerItems_logout);
 		}else{
-			Toast.makeText(getApplicationContext(), "user logged in"+Client.getUser().getProfile_pic_url(), Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "user logged in"+Client.getUser().getProfile_pic_url(), Toast.LENGTH_SHORT).show();
 			mNavigationDrawerFragment.changeDataset(drawerItems_login);
 		}
 		
@@ -346,14 +347,14 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void onloginComplete(User user) {
-		Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
 		mNavigationDrawerFragment.changeDataset(drawerItems_login);
 		redirect(1);
 	}
 
 	@Override
 	public void onRegistrationComplete(User user) {
-		Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), "In Activity email--> "+user.getEmail(), Toast.LENGTH_SHORT).show();
 		mNavigationDrawerFragment.changeDataset(drawerItems_login);
 		redirect(1);
 	}
@@ -386,8 +387,8 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public void getDrawable(Drawable drawable, Object name, File file) {
-		Toast.makeText(getApplicationContext(), ""+name, Toast.LENGTH_SHORT).show();
-		Log.e("name--> ", ""+name);
+		//Toast.makeText(getApplicationContext(), ""+name, Toast.LENGTH_SHORT).show();
+		//Log.e("name--> ", ""+name);
 		
 	}
 
@@ -444,5 +445,11 @@ public class MainActivity extends ActionBarActivity implements
 				.replace(R.id.container,
 						chooseFragment(position)).commit();
 		onSectionAttached(position);
+	}
+
+	@Override
+	public void onRegisterClicked() {
+		redirect(2);
+		
 	}
 }

@@ -262,7 +262,7 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.imageViewUploadPhoto) {
-			Toast.makeText(getActivity(), "CLicked", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getActivity(), "CLicked", Toast.LENGTH_SHORT).show();
 			// imageGalleryManager.openGallery();
 			Intent imageGalleryIntent = new Intent(Intent.ACTION_PICK,
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -313,14 +313,13 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		Toast.makeText(getActivity(), "Fragment onactivity", Toast.LENGTH_SHORT)
-				.show();
+		//Toast.makeText(getActivity(), "Fragment onactivity", Toast.LENGTH_SHORT).show();
 		if (requestCode == IMAGE_GALLERY_REQUEST_CODE) {
 			if(data != null && data.getData() != null){
 				String path = data.getData().getPath();
-				Toast.makeText(getActivity(), "path--> " + path, Toast.LENGTH_LONG)
-						.show();
-				Log.e("path", path);
+				/*Toast.makeText(getActivity(), "path--> " + path, Toast.LENGTH_LONG)
+						.show();*/
+				//Log.e("path", path);
 				String filePath = getPath(getActivity(),data.getData());
 				File file = new File(filePath);
 				if (file.exists()) {
@@ -381,9 +380,9 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 			Client.saveSession(getActivity(), user);
 			Client.setUser(user);
 
-			Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT)
-					.show();
-			Log.e("new url--> ", user.getProfile_pic_url());
+			/*Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT)
+					.show();*/
+			//Log.e("new url--> ", user.getProfile_pic_url());
 			Picasso.with(getActivity()).load(Client.getUser().getProfile_pic_url())
 			.placeholder(R.drawable.empty_photo)
 			.error(R.drawable.empty_photo)
@@ -436,8 +435,7 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 		public void onBitmapLoaded(Bitmap bitmap, LoadedFrom arg1) {
 			if (bitmap != null) {
 
-				Toast.makeText(getActivity(), "Bitmap not null",
-						Toast.LENGTH_SHORT).show();
+			/*	Toast.makeText(getActivity(), "Bitmap not null",Toast.LENGTH_SHORT).show();*/
 				float ratio = bitmap.getWidth() / bitmap.getHeight();
 				int newWidth;
 				int newHieght;
