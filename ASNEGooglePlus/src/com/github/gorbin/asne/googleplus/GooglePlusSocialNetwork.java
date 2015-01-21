@@ -442,6 +442,10 @@ public class GooglePlusSocialNetwork extends SocialNetwork implements GooglePlay
             if(bundle.containsKey(BUNDLE_LINK)){
                 plusShare.setContentUrl(Uri.parse(bundle.getString(BUNDLE_LINK)));
             }
+            if(bundle.containsKey(BUNDLE_MIME_TYPE)){
+            	plusShare.addStream(Uri.parse(bundle.getString(BUNDLE_URI)));
+            	plusShare.setType(bundle.getString(BUNDLE_MIME_TYPE));
+            }
         }
         Intent shareIntent = plusShare.getIntent();
         mActivity.startActivityForResult(shareIntent, 0);

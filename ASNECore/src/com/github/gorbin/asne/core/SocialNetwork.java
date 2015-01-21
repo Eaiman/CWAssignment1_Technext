@@ -109,6 +109,10 @@ public abstract class SocialNetwork {
     public static final String BUNDLE_CAPTION = "caption";
     /*** Share bundle constant for picture*/
     public static final String BUNDLE_PICTURE = "picture";
+    /*** Share bundle constant for mime_type*/
+    public static final String BUNDLE_MIME_TYPE = "mime_type";
+    /*** Share bundle constant for uri*/
+    public static final String BUNDLE_URI = "uri";
 
     /*** Shared preferences name */
     private static final String SHARED_PREFERENCES_NAME = "social_networks";

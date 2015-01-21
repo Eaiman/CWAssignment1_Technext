@@ -63,6 +63,7 @@ public class NavigationDrawerFragment extends Fragment {
 	private int mCurrentSelectedPosition = 0;
 	private boolean mFromSavedInstanceState;
 	private boolean mUserLearnedDrawer;
+	private DrawerAdapter drawerAdapter;
 
 	public NavigationDrawerFragment() {
 	}
@@ -95,6 +96,10 @@ public class NavigationDrawerFragment extends Fragment {
 		// actions in the action bar.
 		setHasOptionsMenu(true);
 	}
+	
+	public void changeDataset(ArrayList<String> dataSet){
+		drawerAdapter.changeDataSet(dataSet);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,12 +116,13 @@ public class NavigationDrawerFragment extends Fragment {
 				});
 		
 		ArrayList<String> drawerItems = new ArrayList<String>();
-        drawerItems.add(getString(R.string.title_section1));
-        drawerItems.add(getString(R.string.title_section2));
-        drawerItems.add(getString(R.string.title_section3));
-        drawerItems.add(getString(R.string.title_section4));
+        drawerItems.add(getString(R.string.title_share));
+        drawerItems.add(getString(R.string.title_login));
+        drawerItems.add(getString(R.string.title_registration));
+        
+        drawerAdapter = new DrawerAdapter(getActivity(), drawerItems);
 		
-		mDrawerListView.setAdapter(new DrawerAdapter(getActivity(), drawerItems));
+		mDrawerListView.setAdapter(drawerAdapter);
 		
 //		mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar()
 //				.getThemedContext(),
@@ -277,7 +283,6 @@ public class NavigationDrawerFragment extends Fragment {
 		// showGlobalContextActionBar, which controls the top-left area of the
 		// action bar.
 		if (mDrawerLayout != null && isDrawerOpen()) {
-			inflater.inflate(R.menu.global, menu);
 			showGlobalContextActionBar();
 		}
 		super.onCreateOptionsMenu(menu, inflater);
@@ -289,11 +294,11 @@ public class NavigationDrawerFragment extends Fragment {
 			return true;
 		}
 
-		if (item.getItemId() == R.id.action_example) {
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT)
-					.show();
-			return true;
-		}
+//		if (item.getItemId() == R.id.action_example) {
+//			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT)
+//					.show();
+//			return true;
+//		}
 
 		return super.onOptionsItemSelected(item);
 	}
