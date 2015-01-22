@@ -312,7 +312,7 @@ public class ProfileFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+		super.onActivityResult(requestCode, resultCode, data);
 		//Toast.makeText(getActivity(), "Fragment onactivity", Toast.LENGTH_SHORT).show();
 		if (requestCode == IMAGE_GALLERY_REQUEST_CODE) {
 			if(data != null && data.getData() != null){
